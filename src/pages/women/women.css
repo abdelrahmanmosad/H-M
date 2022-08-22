@@ -1,0 +1,110 @@
+
+  
+  .img-hover-zoom  {
+    transition: transform .5s ease;
+  }
+  
+  .img-hover-zoom:hover {
+    transform: scale(1.2);
+  }
+
+  .btnHover:hover{
+    opacity: 0.8;
+  }
+
+  /* .img-hover:hover{
+    b
+  } */
+
+  /* .title-hover{
+  } */
+  
+  
+    .card-sl {
+      border-radius: 8px;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .card-image img {
+      max-height: 100%;
+      max-width: 100%;
+      border-radius: 8px 8px 0px 0;
+  }
+
+  .card-action {
+      position: relative;
+      float: right;
+      margin-top: -25px;
+      margin-right: 20px;
+      z-index: 2;
+      color: #E26D5C;
+      background: #fff;
+      border-radius: 100%;
+      font-size: 15px;
+  }
+
+  .card-action:hover {
+      color: #fff;
+      background: #ffffff;
+  }
+
+  .card-action button{
+    border-radius: 100%;
+
+  }
+  .card-heading {
+      font-size: 18px;
+      font-weight: bold;
+      background: #fff;
+      padding: 10px 15px;
+  }
+
+  .card-text {
+      padding: 10px 15px;
+      background: #fff;
+      font-size: 14px;
+      color: #636262;
+  }
+
+  .card-button {
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      width: 100%;
+      background-color: #a00000;
+      color: #fff;
+      border-radius: 0 0 8px 8px;
+  }
+
+  .card-button:hover {
+      text-decoration: none;
+      background-color: #ff0000;
+      color: #fff;
+
+  }
+
+
+  @-webkit-keyframes pulse {
+      0% {
+          -moz-transform: scale(0.9);
+          -ms-transform: scale(0.9);
+          -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+      }
+
+      70% {
+          -moz-transform: scale(1);
+          -ms-transform: scale(1);
+          -webkit-transform: scale(1);
+          transform: scale(1);
+          box-shadow: 0 0 0 50px rgba(90, 153, 212, 0);
+      }
+
+      100% {
+          -moz-transform: scale(0.9);
+          -ms-transform: scale(0.9);
+          -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+          box-shadow: 0 0 0 0 rgba(90, 153, 212, 0);
+      }
+  }
