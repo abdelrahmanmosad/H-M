@@ -8,6 +8,7 @@ import addFavourit from '../../components/store/actions/fav';
 import {AiOutlineHeart} from 'react-icons/ai';
 import { getProducts } from '../../firebase/products';
 import { Card } from '../../components/card/card';
+import addProduct from '../../components/store/actions/cart';
 
 
 
@@ -40,6 +41,24 @@ const Kids = () => {
             }
         }
         dispatch(addFavourit(favMenu));
+
+        // add product to cart
+
+        const p = useSelector((state) => { return state.cart.cartProducts})
+        const [cartMenu, setcartMenu] = useState(p);
+    
+        const addProducts = (productid, productname, productprice) => {
+            let cartProduct = { id: productid, name: productname, price: productprice };
+            if (cartMenu.some(cart => cart.id == cartProduct.id)) {
+                setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
+            }
+            else {
+                setcartMenu(cartMenu.concat(cartProduct))
+            }
+        }
+    
+        dispatch(addProduct(cartMenu));
+
 
     return (
         <>
@@ -80,7 +99,8 @@ const Kids = () => {
             <div class="card-text">
             {prd.price}
                </div>
-               <a href="#"  class="card-button">Add To Cart</a>
+               <a href="#" className={`card-button${cartMenu.some(i => i.id == prd.id) ? 'card-button' : 'card-button'}`}
+                                                 onClick={() => addProducts(prd.id,prd.name, prd.price)} class="card-button">Add To Cart</a>
 
                {/* <Link to={`/details/${prd.id}`} key={prd.id}><a href="/" class="card-button">Add To Cart</a></Link> */}
         </div>

@@ -3,6 +3,7 @@ import { useSelector ,  useDispatch } from "react-redux";
 import './fav.css';
 import addFavourit from '../../components/store/actions/fav';
 import {AiFillDelete} from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 
 const Fav = () => {
 
@@ -37,11 +38,10 @@ const Fav = () => {
               <div class="col-md-3 py-2" key={prd.id}>
                 <div class="card-sl">
                     <div class="card-image">
-                        <img src={prd.imageURL} />
+                    <Link to={`/${prd.cat}/${prd.id}`} key={prd.id}><img src={prd.imageURL} /></Link>
                     </div>
-                    <a class="card-action" >
-                        <button className=
-                      {`btn btn-warning${(prd.id) ? 'btn btn-danger' : 'btn btn-warning'}`} onClick={()=>remove(prd.id)}><AiFillDelete style={{width:"20px",height:"30px"}}/></button></a>
+                    <a class="card-action"><button className={`btn btn-warning${(prd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
+                     onClick={()=>remove(prd.id)}><AiFillDelete style={{width:"20px",height:"30px"}}/></button></a>
                     <div class="card-heading">
                     {prd.name}
                     </div>

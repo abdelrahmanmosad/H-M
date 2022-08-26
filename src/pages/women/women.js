@@ -8,6 +8,7 @@ import addFavourit from '../../components/store/actions/fav';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import {AiOutlineHeart} from 'react-icons/ai';
+import addProduct from '../../components/store/actions/cart';
 
 
 
@@ -41,6 +42,23 @@ const Women = () => {
     }
     dispatch(addFavourit(favMenu));
 
+
+            // add product to cart
+
+            const p = useSelector((state) => { return state.cart.cartProducts})
+            const [cartMenu, setcartMenu] = useState(p);
+        
+            const addProducts = (productid, productname, productprice) => {
+                let cartProduct = { id: productid, name: productname, price: productprice };
+                if (cartMenu.some(cart => cart.id == cartProduct.id)) {
+                    setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
+                }
+                else {
+                    setcartMenu(cartMenu.concat(cartProduct))
+                }
+            }
+        
+            dispatch(addProduct(cartMenu));
     return (
         <>
             <div className='container-fluid'>
@@ -81,7 +99,8 @@ const Women = () => {
             <div class="card-text">
             {womenPrd.price}
                </div>
-               <a href="#"  class="card-button">Add To Cart</a>
+               <a href="#" className={`card-button${cartMenu.some(i => i.id == womenPrd.id) ? 'card-button' : 'card-button'}`}
+              onClick={() => addProducts(womenPrd.id,womenPrd.name, womenPrd.price)} class="card-button">Add To Cart</a>
         </div>
     </div>
 
