@@ -32,7 +32,7 @@ const Women = () => {
     const [favMenu, setfavMenu] = useState(f);
 
     const addFavorite = (productid,productimage, productname, productprice ) => {
-        let favProduct = { id: productid,img : productimage , name: productname, price: productprice };
+        let favProduct = { id: productid, img : productimage , name: productname, price: productprice };
         if (favMenu.some(fav => fav.id == favProduct.id)) {
             setfavMenu(favMenu.filter(f => f.name != favProduct.name))
         }
@@ -48,8 +48,8 @@ const Women = () => {
             const p = useSelector((state) => { return state.cart.cartProducts})
             const [cartMenu, setcartMenu] = useState(p);
         
-            const addProducts = (productid, productname, productprice) => {
-                let cartProduct = { id: productid, name: productname, price: productprice };
+            const addProducts = (productid,productimage, productname, productprice) => {
+                let cartProduct = { id: productid,img : productimage, name: productname, price: productprice };
                 if (cartMenu.some(cart => cart.id == cartProduct.id)) {
                     setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
                 }
@@ -100,21 +100,10 @@ const Women = () => {
             {womenPrd.price}
                </div>
                <a href="#" className={`card-button${cartMenu.some(i => i.id == womenPrd.id) ? 'card-button' : 'card-button'}`}
-              onClick={() => addProducts(womenPrd.id,womenPrd.name, womenPrd.price)} class="card-button">Add To Cart</a>
+              onClick={() => addProducts(womenPrd.id,womenPrd.imageURL ,womenPrd.name, womenPrd.price)} class="card-button">Add To Cart</a>
         </div>
     </div>
 
-
-
-
-{/* 
-                                    <Card key={womenPrd.id} womenPrd={womenPrd}
-                                    name = {womenPrd.name}
-                                    price={womenPrd.price}
-                                    id={womenPrd.id}
-                                    cat={womenPrd.cat}
-                                    img={"https://eg.hm.com/sites/g/files/hm/styles/product_zoom_medium_606x504/brand/assets-shared/HNM/14317405/2b64a8b346e7f171d9d8b3f4d462e2fa45a27d74/1/2b64a8b346e7f171d9d8b3f4d462e2fa45a27d74.jpg?itok=zXXeEJgi"}
-                                    /> */}
                                 </>
                                 );
                             })}

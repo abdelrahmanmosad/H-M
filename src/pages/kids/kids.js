@@ -31,8 +31,8 @@ const Kids = () => {
         const f = useSelector((state) => { return state.fav.favProducts})
         const [favMenu, setfavMenu] = useState(f);
     
-        const addFavorite = (productid, productname, productprice) => {
-            let favProduct = { id: productid, name: productname, price: productprice };
+        const addFavorite = (productid, productimage , productname, productprice) => {
+            let favProduct = { id: productid, img : productimage , name: productname, price: productprice };
             if (favMenu.some(fav => fav.id == favProduct.id)) {
                 setfavMenu(favMenu.filter(f => f.name != favProduct.name))
             }
@@ -47,8 +47,8 @@ const Kids = () => {
         const p = useSelector((state) => { return state.cart.cartProducts})
         const [cartMenu, setcartMenu] = useState(p);
     
-        const addProducts = (productid, productname, productprice) => {
-            let cartProduct = { id: productid, name: productname, price: productprice };
+        const addProducts = (productid,productimage , productname, productprice) => {
+            let cartProduct = { id: productid, img : productimage, name: productname, price: productprice };
             if (cartMenu.some(cart => cart.id == cartProduct.id)) {
                 setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
             }
@@ -92,7 +92,7 @@ const Kids = () => {
             <a class="card-action" >
                 <button className=
                 {`btn btn-warning${favMenu.some(i => i.id == prd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
-                 onClick={() => addFavorite(prd.id,prd.name, prd.price)}><AiOutlineHeart style={{width:"25px",height:"30px"}}/></button></a>
+                 onClick={() => addFavorite(prd.id, prd.imageURL ,prd.name, prd.price)}><AiOutlineHeart style={{width:"25px",height:"30px"}}/></button></a>
             <div class="card-heading">
             {prd.name}
             </div>
@@ -100,7 +100,7 @@ const Kids = () => {
             {prd.price}
                </div>
                <a href="#" className={`card-button${cartMenu.some(i => i.id == prd.id) ? 'card-button' : 'card-button'}`}
-                                                 onClick={() => addProducts(prd.id,prd.name, prd.price)} class="card-button">Add To Cart</a>
+               onClick={() => addProducts(prd.id, prd.imageURL ,prd.name, prd.price)} class="card-button">Add To Cart</a>
 
                {/* <Link to={`/details/${prd.id}`} key={prd.id}><a href="/" class="card-button">Add To Cart</a></Link> */}
         </div>

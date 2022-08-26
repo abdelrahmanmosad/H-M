@@ -3,7 +3,6 @@ import { useSelector ,  useDispatch } from "react-redux";
 import './basket.css';
 import addProduct from '../../components/store/actions/cart';
 import {AiOutlineClose} from 'react-icons/ai';
-import { Link } from 'react-router-dom';
 
 
 const Basket = () => {
@@ -52,8 +51,8 @@ const Basket = () => {
                             <tbody>
                                 <tr>
                                     <td>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside"> <Link to={`/${prd.cat}/${prd.id}`} key={prd.id}><img src={prd.imageURL} /></Link></div>
+                                        <figure class="itemside align-items-center" key={prd.id}>
+                                            <div class="aside"><img src={prd.img} class="img-sm"/></div>
                                             <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">{prd.name}</a>
                                                 <p class="small text-muted">SIZE:M <br/> Brand: Cantabil</p>
                                             </figcaption>

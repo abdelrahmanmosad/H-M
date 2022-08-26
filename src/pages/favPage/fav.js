@@ -38,7 +38,7 @@ const Fav = () => {
               <div class="col-md-3 py-2" key={prd.id}>
                 <div class="card-sl">
                     <div class="card-image">
-                    <Link to={`/${prd.cat}/${prd.id}`} key={prd.id}><img src={prd.imageURL} /></Link>
+                    <img src={prd.img} />
                     </div>
                     <a class="card-action"><button className={`btn btn-warning${(prd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
                      onClick={()=>remove(prd.id)}><AiFillDelete style={{width:"20px",height:"30px"}}/></button></a>
