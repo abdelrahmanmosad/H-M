@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import addFavourit from '../../components/store/actions/fav';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import {AiOutlineHeart} from 'react-icons/ai';
+import { AiOutlineHeart } from 'react-icons/ai';
 import addProduct from '../../components/store/actions/cart';
 
 
@@ -15,9 +15,9 @@ import addProduct from '../../components/store/actions/cart';
 
 const Women = () => {
     const [women, setWomen] = useState([]);
-     useEffect( () => {
+    useEffect(() => {
         async function prdlist() {
-             setWomen(await getProducts("Women")); 
+            setWomen(await getProducts("Women"));
         }
         prdlist();
     }, [])
@@ -28,11 +28,11 @@ const Women = () => {
 
 
     const dispatch = useDispatch();
-    const f = useSelector((state) => { return state.fav.favProducts})
+    const f = useSelector((state) => { return state.fav.favProducts })
     const [favMenu, setfavMenu] = useState(f);
 
-    const addFavorite = (productid,productimage, productname, productprice ) => {
-        let favProduct = { id: productid, img : productimage , name: productname, price: productprice };
+    const addFavorite = (productid, productimage, productname, productprice) => {
+        let favProduct = { id: productid, img: productimage, name: productname, price: productprice };
         if (favMenu.some(fav => fav.id == favProduct.id)) {
             setfavMenu(favMenu.filter(f => f.name != favProduct.name))
         }
@@ -43,22 +43,22 @@ const Women = () => {
     dispatch(addFavourit(favMenu));
 
 
-            // add product to cart
+    // add product to cart
 
-            const p = useSelector((state) => { return state.cart.cartProducts})
-            const [cartMenu, setcartMenu] = useState(p);
-        
-            const addProducts = (productid,productimage, productname, productprice) => {
-                let cartProduct = { id: productid,img : productimage, name: productname, price: productprice };
-                if (cartMenu.some(cart => cart.id == cartProduct.id)) {
-                    setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
-                }
-                else {
-                    setcartMenu(cartMenu.concat(cartProduct))
-                }
-            }
-        
-            dispatch(addProduct(cartMenu));
+    const p = useSelector((state) => { return state.cart.cartProducts })
+    const [cartMenu, setcartMenu] = useState(p);
+
+    const addProducts = (productid, productimage, productname, productprice) => {
+        let cartProduct = { id: productid, img: productimage, name: productname, price: productprice };
+        if (cartMenu.some(cart => cart.id == cartProduct.id)) {
+            setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
+        }
+        else {
+            setcartMenu(cartMenu.concat(cartProduct))
+        }
+    }
+
+    dispatch(addProduct(cartMenu));
     return (
         <>
             <div className='container-fluid'>
@@ -83,28 +83,28 @@ const Women = () => {
                                 return (
                                     <>
 
-<div class="col-md-3 py-2">
-        <div class="card-sl">
-            <div class="card-image">
-            <Link to={`/${womenPrd.cat}/${womenPrd.id}`} key={womenPrd.id}><img src={womenPrd.imageURL} /></Link>
+                                        <div class="col-md-3 py-2">
+                                            <div class="card-sl">
+                                                <div class="card-image">
+                                                    <Link to={`/${womenPrd.cat}/${womenPrd.id}`} key={womenPrd.id}><img src={womenPrd.imageURL} /></Link>
 
-            </div>
-            <a class="card-action" >
-                <button className=
-                {`btn btn-warning${favMenu.some(i => i.id == womenPrd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
-                 onClick={() => addFavorite(womenPrd.id,womenPrd.imageURL,womenPrd.name, womenPrd.price )}><AiOutlineHeart style={{width:"25px",height:"30px"}}/></button></a>
-            <div class="card-heading">
-            {womenPrd.name}
-            </div>
-            <div class="card-text">
-            {womenPrd.price}
-               </div>
-               <a href="#" className={`card-button${cartMenu.some(i => i.id == womenPrd.id) ? 'card-button' : 'card-button'}`}
-              onClick={() => addProducts(womenPrd.id,womenPrd.imageURL ,womenPrd.name, womenPrd.price)} class="card-button">Add To Cart</a>
-        </div>
-    </div>
+                                                </div>
+                                                <a class="card-action" >
+                                                    <button className=
+                                                        {`btn btn-warning${favMenu.some(i => i.id == womenPrd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
+                                                        onClick={() => addFavorite(womenPrd.id, womenPrd.imageURL, womenPrd.name, womenPrd.price)}><AiOutlineHeart style={{ width: "25px", height: "30px" }} /></button></a>
+                                                <div class="card-heading">
+                                                    {womenPrd.name}
+                                                </div>
+                                                <div class="card-text">
+                                                    {womenPrd.price}
+                                                </div>
+                                                <a href="#" className={`card-button${cartMenu.some(i => i.id == womenPrd.id) ? 'card-button' : 'card-button'}`}
+                                                    onClick={() => addProducts(womenPrd.id, womenPrd.imageURL, womenPrd.name, womenPrd.price)} class="card-button">Add To Cart</a>
+                                            </div>
+                                        </div>
 
-                                </>
+                                    </>
                                 );
                             })}
                         </div>

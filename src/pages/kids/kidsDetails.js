@@ -11,7 +11,7 @@ const KidsDetails = () => {
     const [prdDetails, setPrdDetails] = useState({});
     useEffect(() => {
         const getprdDetails = async () => {
-            await getDoc(doc(db, "/H&M/2gtjhBbGyiqc9G8efUge/Kids", params.id)).then((res) => {
+            await getDoc(doc(db, "/HM/LGUn3PhtxLEzwGxNKXLI/Kids", params.id)).then((res) => {
                 setPrdDetails(res.data())
             })
         }
@@ -27,7 +27,7 @@ const KidsDetails = () => {
                 <div className="row">
                     <div className="col-8">
                         <div className="row m-5">
-                        <img className="img-fluid img-hover-zoom" style={{ width: "40%", height: "30%" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsQeuSx0ndBVmsrYZXZiBSPK3Oowb7sOPNRQ&usqp=CAU" />
+                            <img className="img-fluid img-hover-zoom" style={{ width: "40%", height: "30%" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsQeuSx0ndBVmsrYZXZiBSPK3Oowb7sOPNRQ&usqp=CAU" />
                             <img className="img-fluid img-hover-zoom" style={{ width: "40%", height: "30%" }} src={prdDetails.imageURL} />
                         </div>
                         <div className="description m-5 d-flex bg-light">

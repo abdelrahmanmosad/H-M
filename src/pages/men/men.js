@@ -35,14 +35,11 @@ const Men = () => {
     const f = useSelector((state) => { return state.fav.favProducts })
     const [favMenu, setfavMenu] = useState(f);
 
-    const addFavorite = async (productid,productimage , productname, productprice) => {
-        let favProduct = { id: productid,  img : productimage ,name: productname, price: productprice };
+    const addFavorite = async (productid, productimage, productname, productprice) => {
+        let favProduct = { id: productid, img: productimage, name: productname, price: productprice };
         if (users) {
             if (favMenu.some(fav => fav.id == favProduct.id)) {
-
                 setfavMenu(favMenu.filter(f => f.name != favProduct.name))
-
-
             }
             else {
                 setfavMenu(favMenu.concat(favProduct))
@@ -52,29 +49,39 @@ const Men = () => {
             }, { merge: true });
         }
         else {
-            setfavMenu("")
+            setfavMenu(f)
             alert("please log in first")
         }
 
     }
     dispatch(addFavourit(favMenu));
 
-        // add product to cart
+    // add product to cart
 
-        const p = useSelector((state) => { return state.cart.cartProducts})
-        const [cartMenu, setcartMenu] = useState(p);
-    
-        const addProducts = (productid, productimage , productname, productprice) => {
-            let cartProduct = { id: productid, img : productimage , name: productname, price: productprice };
+    const p = useSelector((state) => { return state.cart.cartProducts })
+    const [cartMenu, setcartMenu] = useState(p);
+
+    const addProducts = async (productid, productimage, productname, productprice) => {
+        let cartProduct = { id: productid, img: productimage, name: productname, price: productprice };
+        if (users) {
             if (cartMenu.some(cart => cart.id == cartProduct.id)) {
                 setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
             }
             else {
                 setcartMenu(cartMenu.concat(cartProduct))
             }
+            await setDoc(doc(db, "Users", userInfo.uid), {
+                Orders: cartMenu,
+            }, { merge: true });
         }
-    
-        dispatch(addProduct(cartMenu));
+        else {
+            setcartMenu(p)
+            alert("please log in first")
+        }
+
+    }
+
+    dispatch(addProduct(cartMenu));
 
     return (
         <>
@@ -109,7 +116,7 @@ const Men = () => {
                                                 <a class="card-action" >
                                                     <button className=
                                                         {`btn btn-warning${favMenu.some(i => i.id == prd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
-                                                        onClick={() => addFavorite(prd.id,prd.imageURL, prd.name, prd.price)}><AiOutlineHeart style={{ width: "25px", height: "30px" }} />
+                                                        onClick={() => addFavorite(prd.id, prd.imageURL, prd.name, prd.price)}><AiOutlineHeart style={{ width: "25px", height: "30px" }} />
                                                     </button></a>
                                                 <div class="card-heading">
                                                     {prd.name}
@@ -117,8 +124,8 @@ const Men = () => {
                                                 <div class="card-text">
                                                     {prd.price}
                                                 </div>
-                                                <a href="#" className={`card-button${cartMenu.some(i => i.id == prd.id) ? 'card-button' : 'card-button'}`}
-                                                 onClick={() => addProducts(prd.id, prd.imageURL,prd.name, prd.price)} class="card-button">Add To Cart</a>
+                                                <button className={`${cartMenu.some(i => i.id == prd.id) ? 'card-button bg-danger' : 'card-button bg-warning'}`}
+                                                    onClick={() => addProducts(prd.id, prd.imageURL, prd.name, prd.price)} >Add To Cart</button>
                                             </div>
                                         </div>
                                     </>

@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 
 const Submyacc = () => {
-   const { users } = useUserContext();
+   const { userInfo } = useUserContext();
 
    return (
 
@@ -22,7 +22,7 @@ const Submyacc = () => {
          <h4>ACCOUNT DETAILS</h4>
          <hr />
          <h6>Email address</h6>
-         <p style={{ fontSize: ".7rem" }}>{users.email}</p>
+         <p style={{ fontSize: ".7rem" }}>{userInfo.Email}</p>
       </div>
    );
 }

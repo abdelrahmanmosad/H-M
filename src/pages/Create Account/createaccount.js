@@ -12,7 +12,6 @@ const CreateAccount = () => {
 
    const { registerUser, signInWithGoogle, signInWithFacebook, users } = useUserContext();
    const navigate = useNavigate();
-
    const emailRef = useRef();
    const nameRef = useRef();
    const psdRef = useRef();

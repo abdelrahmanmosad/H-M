@@ -5,10 +5,10 @@ import Button from 'react-bootstrap/Button';
 const Editaccount = () => {
    const fulname = useRef();
    const number = useRef();
-   const { users, setUsers, updatecurrentProfile } = useUserContext();
+   const { users, setUsers, updatecurrentProfile, userInfo } = useUserContext();
 
    const [user, setUser] = useState(
-      { fullName: users.displayName, mobile: "+02 ", }
+      { fullName: userInfo.Name, mobile: "+02 ", }
    );
    const handleChange = (evt) => {
       if (evt.target.name == "fullName") {
@@ -76,7 +76,7 @@ const Editaccount = () => {
                disabled
                className="form-control mb-5"
                style={{ border: 'none', borderBottom: "1px solid", boxShadow: "none" }}
-               value={users.email}
+               value={userInfo.Email}
                name="emailAddress"
             />
             <Button type="submit" className="btn btn-dark " style={{ width: "20%" }} >Save</Button>

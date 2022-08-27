@@ -17,7 +17,6 @@ import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 
-
 const UserContext = createContext({});
 
 export const useUserContext = () => useContext(UserContext);
@@ -38,7 +37,9 @@ export const UserContextProvider = ({ children }) => {
       setLoading(true);
       const unsubscribe = onAuthStateChanged(auth, async (res) => {
          if (res) {
-            setUsers(res);
+            setUsers(res.auth.currentUser);
+            setUserInfo(res.auth.currentUser);
+            console.log(res.auth.currentUser);
          } else {
             setUsers(undefined);
          }
@@ -50,6 +51,39 @@ export const UserContextProvider = ({ children }) => {
 
 
 
+   /* const registerUser = async (email, password, name) => {
+      setLoading(true);
+      createUserWithEmailAndPassword(auth, email, password)
+         .then((credentials) => {
+            console.log(credentials.data());
+            // console.log(auth.currentUser.uid);
+
+            setUsers(auth.currentUser)
+            // setUserInfo(credentials.data());
+            const user = credentials.user
+            const data = {
+               uid: user.uid,
+               Name: name,
+               Email: email,
+               Password: password,
+               Orders: [],
+               Favs: [],
+               mobile: "",
+            }
+            addDocByID('Users', user.uid, data)
+               .then(async () => {
+                  await updateProfile(auth.currentUser, {
+                     ...users,
+                     displayName: name,
+                     phoneNumber: '02',
+                  });
+                  navigate('/home');
+               }).catch(error => setError(error.message))
+               .finally(() => setLoading(false));
+         }).catch((error) => {
+            setError(error.message)
+         })
+   }; */
    const registerUser = async (email, password, name) => {
       setLoading(true);
       createUserWithEmailAndPassword(auth, email, password)
@@ -82,22 +116,23 @@ export const UserContextProvider = ({ children }) => {
    };
 
    const signInUser = async (email, password) => {
-
       setLoading(true);
-
-
       await signInWithEmailAndPassword(auth, email, password)
          .then(async (res) => {
-            console.log(res.user);
-            await getDoc(doc(db, "Users", auth.currentUser.uid)).then(res => {
-               console.log(res.data());
-               setUserInfo(res.data());
-
-            });
+            console.log(userInfo);
+            setUsers(res.user);
+            setUserInfo(userInfo)
+            getUsers();
          })
          .catch((err) => setError(err.code))
          .finally(() => setLoading(false));
    };
+
+   const getUsers = async () => {
+      await getDoc(doc(db, "Users", userInfo.uid)).then(res => {
+         setUserInfo(res.data());
+      });
+   }
 
    const signInWithGoogle = () => {
       setLoading(true);
@@ -172,15 +207,14 @@ export const UserContextProvider = ({ children }) => {
    };
 
 
-
-
-
    const contextValue = {
       users,
       loading,
       errors,
       UserContext,
       userInfo,
+      setUserInfo,
+      getUsers,
       setUsers,
       signInUser,
       registerUser,
