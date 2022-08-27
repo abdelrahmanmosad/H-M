@@ -5,8 +5,8 @@
 }
 
 .img-sm {
-    width: 150px;
-    height: 150px
+    width: 200px;
+    height: 200px
 }
 
 .itemside .info {
@@ -14,8 +14,16 @@
     padding-right: 7px
 }
 
+.itemside .title {
+    font-weight: bold;
+
+}
+
+
 .table-shopping-cart .price-wrap {
-    line-height: 1.2
+    line-height: 1.2;
+    font-weight: bold;
+
 }
 
 .table-shopping-cart .price {
@@ -32,6 +40,7 @@
 a {
     text-decoration: none !important;
     padding-bottom: 5px;
+
 }
 
 .card {
