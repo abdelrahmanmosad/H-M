@@ -1,18 +1,48 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './header.css';
 import { Link } from 'react-router-dom';
 import { BsSuitHeart, BsSearch } from 'react-icons/bs';
 import { HiOutlineShoppingBag } from 'react-icons/hi';
 import { useUserContext } from "../../context/userContext";
 import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
+import i18next from 'i18next'
+import cookies from 'js-cookie'
 
+const languages = [
 
+    {
+        code: 'en',
+        name: 'English',
+
+    },
+    {
+        code: 'ar',
+        name: 'العربية',
+        dir: 'lrt',
+    },
+
+]
 const Header = () => {
-
+    const currentLanguageCode = cookies.get('i18next') || 'en'
+    const currentLanguage = languages.find((l) => l.code === currentLanguageCode)
+    const { t } = useTranslation()
     const { logoutUser, users, userInfo } = useUserContext();
+    const [lang, setLang] = useState(false);
+
+    const changelanguage = () => {
+        setLang(!lang)
+        if (lang) {
+            i18next.changeLanguage('ar')
+        }
+        else {
+            i18next.changeLanguage('en')
+        }
+    }
     useEffect(() => {
-        console.log(userInfo);
-    }, [userInfo, users]);
+        document.body.dir = currentLanguage.dir || 'rtl'
+
+    }, [currentLanguage]);
     const counter = useSelector((state) => { return state.fav.favProducts })
     const counterproduct = useSelector((state) => { return state.cart.cartProducts })
 
@@ -22,12 +52,18 @@ const Header = () => {
             <div className='container-fluid navTop'>
                 <div className='row'>
                     <ul style={{ fontSize: "1em" }}>
-                        {users ? <li>Welcom, {users.displayName}</li> : <li><Link to="/createaccount" className="">Create An Account</Link></li>}
-                        {users && <li><Link to="/myaccount/account" >My Account</Link></li>}
-                        {users && <li><Link to="/myaccount/changepassword" >Change password</Link></li>}
-                        {users ? <li onClick={() => logoutUser()} ><Link to="/signin">Sign out</Link></li> : <li><Link to="/signin">Sign In</Link></li>}
-                        <li><a href="https://eg.hm.com/en/store-finder">Find Store</a></li>
-                        <li className='mx-3'>العربية</li>
+                        {users ? <li className='mx-3'>{t('welcome_message')} {users.displayName}</li> : <li><Link to="/createaccount" className="">Create An Account</Link></li>}
+                        {users && <li><Link to="/myaccount/account" >{t('My_account')}</Link></li>}
+                        {users && <li><Link to="/myaccount/changepassword" >{t('Change_Password')}</Link></li>}
+                        {users ? <li onClick={() => logoutUser()} ><Link to="/signin">{t('SignOut')}</Link></li> : <li><Link to="/signin">Sign In</Link></li>}
+                        <li><a href="https://eg.hm.com/en/store-finder">{t('Find_store')}</a></li>
+                        <li onClick={() => changelanguage()} className='mx-3'>{t('language')}</li>
+
+                        {/* {languages.map(({ code, name }) => (
+
+                            <li onClick={() => { i18next.changeLanguage(code) }} className='mx-3'>{t('language')}</li>
+
+                        ))} */}
 
                     </ul>
                 </div>

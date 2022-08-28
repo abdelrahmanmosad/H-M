@@ -20,7 +20,6 @@ import KidsDetails from './pages/kids/kidsDetails';
 import Myaccount from './pages/My Account/myaccount';
 
 
-
 function App() {
 
   return (
