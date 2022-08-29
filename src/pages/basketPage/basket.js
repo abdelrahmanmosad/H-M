@@ -150,7 +150,7 @@ const Basket = () => {
                                 <thead class="text-muted">
                                     <tr class="small text-uppercase">
                                         <th scope="col">Product</th>
-                                        <th scope="col" width="120">Quantity</th>
+
                                         <th scope="col" width="200">Price</th>
                                         <th scope="col" class="text-right d-none d-md-block" width="200"></th>
                                     </tr>
@@ -165,13 +165,7 @@ const Basket = () => {
                                                 </figcaption>
                                             </figure>
                                         </td>
-                                        <td >
 
-                                            <Button className="ms-2" onClick={() => onMinis(prd)} >-</Button>
-                                            {prd.Quantity}
-                                            <Button className="ms-2" onClick={() => onAdd(prd, i)}>+</Button>
-
-                                        </td>
 
                                         <td>
                                             <div class="price-wrap m-5">{prd.price} EGP</div>
