@@ -1,19 +1,17 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import './basket.css';
 import addProduct from '../../components/store/actions/cart';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'react-bootstrap';
 import { useUserContext } from "../../context/userContext";
-import { doc, getDoc,updateDoc, arrayRemove} from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase";
 import Paypal from '../../components/paypal';
-import { t } from 'i18next'; 
+import { t } from 'i18next';
 
 
 const Basket = () => {
-    
-    const { users, userInfo } = useUserContext();
 
     const { users, userInfo } = useUserContext();
 
@@ -29,105 +27,103 @@ const Basket = () => {
     dispatch(addProduct(cartMenu));
 
 
-//    const Qprice = useRef();
-//    let q = 1 ;
-    
-//    const increase = (price) => {
-//    q++;
-//    console.log(price * q)
-//    }
+    //    const Qprice = useRef();
+    //    let q = 1 ;
 
-const[Order,setOrder]=useState([])
+    //    const increase = (price) => {
+    //    q++;
+    //    console.log(price * q)
+    //    }
 
-// const [checkout, setCheckOut ] = useState(false);
+    const [Order, setOrder] = useState([])
 
-// var itemsPrice = Order.reduce((a, c) => a + c.Quantity * c.price, 0);
-// var taxPrice = itemsPrice * 0.1;
-// var shippingPrice = itemsPrice > 1000 ? 0 : 20;
-// var totalPrice = itemsPrice + taxPrice ;
+    // const [checkout, setCheckOut ] = useState(false);
 
-const [price, setPrice]=useState (0)
+    // var itemsPrice = Order.reduce((a, c) => a + c.Quantity * c.price, 0);
+    // var taxPrice = itemsPrice * 0.1;
+    // var shippingPrice = itemsPrice > 1000 ? 0 : 20;
+    // var totalPrice = itemsPrice + taxPrice ;
 
-useEffect(() => {
+    const [price, setPrice] = useState(0)
+
+    useEffect(() => {
 
 
-    const getOrder =async ()=>{
-      await getDoc(doc(db, "Users", userInfo.uid)).then
-      
-      ((res)=>{
-        var x = 0;
-        for(var i = 0 ; i < res.data().Orders.length ; i++ )
-        {
-          x += res.data().Orders[i].price;
+        const getOrder = async () => {
+            await getDoc(doc(db, "Users", userInfo.uid)).then
+
+                ((res) => {
+                    var x = 0;
+                    for (var i = 0; i < res.data().Orders.length; i++) {
+                        x += res.data().Orders[i].price;
+                    }
+                    setPrice(x)
+                    setOrder(res.data().Orders)
+                })
         }
-        setPrice (x)
-        setOrder(res.data().Orders)
-        })
-  }
 
-  getOrder();
-    
-},)
+        getOrder();
+
+    })
 
 
 
-const ProductOrder = doc(db, "Users", userInfo.uid);
+    const ProductOrder = doc(db, "Users", userInfo.uid);
 
 
 
-// function onRemove(prd){
-// updateDoc(ProductOrder, {
-// Orders: arrayRemove(prd)
-// },[]);
-// }
+    // function onRemove(prd){
+    // updateDoc(ProductOrder, {
+    // Orders: arrayRemove(prd)
+    // },[]);
+    // }
 
 
-function onAdd(prd){
+    function onAdd(prd) {
 
-const exist = Order.find((x) => x.name === prd.name);
-exist.Quantity=1;
-    setOrder(
-      Order.map((x) =>
-        x.name === prd.name ? { ...exist, Quantity: exist.Quantity+1 } : x
-      )
-    );
+        const exist = Order.find((x) => x.name === prd.name);
+        exist.Quantity = 1;
+        setOrder(
+            Order.map((x) =>
+                x.name === prd.name ? { ...exist, Quantity: exist.Quantity + 1 } : x
+            )
+        );
 
-// console.log(Order)
-updateDoc(ProductOrder,
-  { Orders: Order },
-  { merge: true }
-  )
-  }
+        // console.log(Order)
+        updateDoc(ProductOrder,
+            { Orders: Order },
+            { merge: true }
+        )
+    }
 
-function onMinis(prd){
+    function onMinis(prd) {
 
-const exist = Order.find((x) => x.name === prd.name);
+        const exist = Order.find((x) => x.name === prd.name);
 
-setOrder(
-  Order.map((x) =>
-    x.name === prd.name ? { ...exist, Quantity: exist.Quantity=exist.Quantity-1 } : x
-  )
-);
-
-
-if( exist.Quantity===0)
-{
-
-const x = Order.indexOf(prd);
-Order.splice(x,1)
-
-}
+        setOrder(
+            Order.map((x) =>
+                x.name === prd.name ? { ...exist, Quantity: exist.Quantity = exist.Quantity - 1 } : x
+            )
+        );
 
 
-// console.log(Order)
-updateDoc(ProductOrder,
-{ Orders: Order },
-{ merge: true }
-)
+        if (exist.Quantity === 0) {
 
-}
+            const x = Order.indexOf(prd);
+            Order.splice(x, 1)
 
-      
+        }
+
+
+        // console.log(Order)
+        updateDoc(ProductOrder,
+            { Orders: Order },
+            { merge: true }
+        )
+
+    }
+
+
 
     const EmptyMessage = () => {
         if (productList.length > 0) {
@@ -143,8 +139,9 @@ updateDoc(ProductOrder,
     }
 
     const ProductsL = () => (
-        productList.map((prd,i) => {
+        productList.map((prd, i) => {
             return (
+
                 <>
 
                     <div class="card" key={i}>
@@ -159,25 +156,25 @@ updateDoc(ProductOrder,
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr onClick={(evt) => increase(evt)}>
+                                    <tr>
                                         <td>
                                             <figure class="itemside align-items-center" key={prd.id}>
                                                 <div class="aside"><img src={prd.img} class="img-sm" /></div>
-                                                <figcaption class="info"> <a class="title text-dark" data-abc="true" ref={Qprice}>{prd.name}</a>
+                                                <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">{prd.name}</a>
                                                     <p class="small text-muted">SIZE:M <br /> Brand: Cantabil</p>
                                                 </figcaption>
                                             </figure>
                                         </td>
                                         <td >
- 
-                                             <Button className="ms-2"onClick={() =>onMinis(prd)} >-</Button>
-                                            {prd.Quantity}
-                                            <Button className="ms-2" onClick={() =>onAdd(prd,i)}>+</Button>   
 
-                                         </td>
-                                                                            
+                                            <Button className="ms-2" onClick={() => onMinis(prd)} >-</Button>
+                                            {prd.Quantity}
+                                            <Button className="ms-2" onClick={() => onAdd(prd, i)}>+</Button>
+
+                                        </td>
+
                                         <td>
-                                            <div class="price-wrap m-3">{prd.price} EGP</div>
+                                            <div class="price-wrap m-5">{prd.price} EGP</div>
                                         </td>
                                         <td class="text-right d-none d-md-block">
                                             {/* <a href="" class="btn btn-light" data-abc="true"> <BsSuitHeart style={{ width: "20px", height: "20px" }} /></a> */}
@@ -240,10 +237,10 @@ updateDoc(ProductOrder,
                                     </dl>
                                     <dl class="dlist-align">
                                         <dt>Total : </dt>
-                                        <dd class="text-right text-dark b ml-3"><strong>{price-10.00.toFixed(2)} EGP</strong></dd>
+                                        <dd class="text-right text-dark b ml-3"><strong>{price - 10.00.toFixed(2)} EGP</strong></dd>
                                     </dl>
                                     <hr />
-                                     <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true">Make Purchase</a>
+                                    <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true">Make Purchase</a>
                                     <a href="#" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
                                 </div>
                             </div>
