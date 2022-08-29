@@ -5,9 +5,12 @@ import Label from '../Create Account/label';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserContext } from "../../context/userContext";
 import Button from 'react-bootstrap/Button';
+import { useTranslation } from "react-i18next";
 
 
 const SignIn = () => {
+   const { t } = useTranslation()
+
    const { signInUser, forgotPassword, users, errors, signInWithGoogle, signInWithFacebook } = useUserContext();
 
    const navigate = useNavigate()
@@ -117,14 +120,14 @@ const SignIn = () => {
       <>
          <div className="container">
             {/* ---------------------------- left side ---------------------------- */}
-            <h2>Sign in</h2>
+            <h2>{t('signin')}</h2>
             <hr />
             <div className="row">
                <div className="col-5 gy-4">
-                  <h5>Sign in with email address</h5>
+                  <h5>{t('signwith')}</h5>
                   <form onSubmit={(e) => handleSubmit(e)} >
 
-                     <Label name='Email' />
+                     <Label name={t('email')} />
                      <input type="email"
                         id="EmailAddress"
                         required
@@ -136,7 +139,7 @@ const SignIn = () => {
                         onChange={(event) => { handleChange(event) }} />
                      <small className="text-danger">{error.emailAddressError}</small><br />
 
-                     <Label name='Password' />
+                     <Label name={t('pass')} />
 
                      <input type={`${hide ? "text" : "password"}`}
 
@@ -152,19 +155,19 @@ const SignIn = () => {
                         onChange={(event) => { handleChange(event) }} />
                      {
                         hide ?
-                           (<p style={{ height: "50px", width: "50px" }} color="white" onClick={() => Toggle()} > hide</p>)
+                           (<p style={{ height: "50px", width: "50px" }} color="white" onClick={() => Toggle()} > {t('hide')}</p>)
 
-                           : (<p style={{ height: "50px", width: "50px" }} color="white" onClick={() => Toggle()} >show</p>)
+                           : (<p style={{ height: "50px", width: "50px" }} color="white" onClick={() => Toggle()} >{t('show')}</p>)
                      }
                      <small className="text-danger">{error.passwordError}</small>
 
 
                      <div className="col-9 d-flex justify-content-between align-items-baseline">
                         <Button type="submit" className="btn btn-dark" style={{ width: "40%" }} >
-                           SIGN IN
+                           {t('signin')}
                         </Button>
 
-                        <p onClick={() => forgotPasswordHandler()}>Forgot password?</p>
+                        <p onClick={() => forgotPasswordHandler()}>{t('forgot')}</p>
 
                      </div>
                      {errors && <p className="error">{errors}</p>}
@@ -176,24 +179,24 @@ const SignIn = () => {
 
                {/* -------------------------------- right side ----------------- */}
                <div className="col-5 d-flex mb-3 flex-column align-items-center justify-content-evenly" >
-                  <h5 >Sign up with social media</h5>
+                  <h5 >{t('social')}</h5>
 
                   <Button onClick={signInWithFacebook} className="d-flex justify-content-around" variant="outline-light" style={{ height: "2.875rem", border: "1px solid #a3a1a1", width: "55%", marginTop: "1.75rem" }}>
                      <FaFacebookSquare style={{ width: 40, height: 30, color: "blue" }} />
-                     <span className="social-network-text" style={{ color: "black" }}>sign up with Facebook</span>
+                     <span className="social-network-text" style={{ color: "black" }}>{t('face')}</span>
                   </Button>
 
                   <Button onClick={signInWithGoogle} className="d-flex justify-content-around" variant="outline-light" style={{ height: "2.875rem", border: "1px solid #a3a1a1", width: "55%", marginTop: "1.75rem" }}>
                      <FcGoogle style={{ width: 40, height: 30 }} />
-                     <span className="social-network-text" style={{ color: "black" }}>sign up with Google</span>
+                     <span className="social-network-text" style={{ color: "black" }}>{t('gmail')}</span>
                   </Button>
 
-                  <p>Dont have an account yet?</p>
+                  <p>{t('haveacc')}</p>
                   <a className="d-flex justify-content-around" style={{
                      backgroundColor: "#faf9f8", width: '30%', height: "2.875rem", border: "1px solid #a3a1a1", color: "black", textDecoration: 'none', marginTop: "1.75rem", padding: ".5rem"
                   }} social-auth-link="/en/user/login/facebook">
                      <svg stroke="currentColor" fill="none" stroke-width="1" viewBox="0 0 12 16" height="2em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 14.002a.998.998 0 0 1-.998.998H1.001A1 1 0 0 1 0 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path></svg>
-                     <Link to='/createaccount'><span className="social-network-text">sign up Here</span></Link>
+                     <Link to='/createaccount'><span className="social-network-text">{t('signin')}</span></Link>
 
                   </a>
 

@@ -108,23 +108,23 @@ const Men = () => {
                                 return (
                                     <>
 
-                                        <div class="col-md-3 py-2">
-                                            <div class="card-sl">
-                                                <div class="card-image">
+                                        <div className="col-md-3 py-2" >
+                                            <div className="card-sl" style={{ width: "14rem" }}>
+                                                <div className="card-image">
                                                     <Link to={`/${prd.cat}/${prd.id}`} key={prd.id}><img src={prd.imageURL} /></Link>
                                                 </div>
-                                                <a class="card-action" >
+                                                <a className="card-action" >
                                                     <button className=
                                                         {`btn btn-warning${favMenu.some(i => i.id == prd.id) ? 'btn btn-danger' : 'btn btn-warning'}`}
                                                         onClick={() => addFavorite(prd.id, prd.imageURL, prd.name, prd.price)}><AiOutlineHeart style={{ width: "25px", height: "30px" }} />
                                                     </button></a>
-                                                <div class="card-heading">
+                                                <div className="card-heading">
                                                     {prd.name}
                                                 </div>
-                                                <div class="card-text">
-                                                    {prd.price}
+                                                <div className="card-text">
+                                                    EGP {prd.price}
                                                 </div>
-                                                <button className={`${cartMenu.some(i => i.id == prd.id) ? 'card-button bg-danger' : 'card-button bg-warning'}`}
+                                                <button className={`${cartMenu.some(i => i.id == prd.id) ? 'card-button' : 'card-button'}`}
                                                     onClick={() => addProducts(prd.id, prd.imageURL, prd.name, prd.price)} >Add To Cart</button>
                                             </div>
                                         </div>

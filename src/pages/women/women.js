@@ -2,18 +2,22 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import './women.css';
 import { getProducts } from '../../firebase/products';
-import { Card } from '../../components/card/card';
 import { Link } from 'react-router-dom';
 import addFavourit from '../../components/store/actions/fav';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { AiOutlineHeart } from 'react-icons/ai';
 import addProduct from '../../components/store/actions/cart';
+import { useUserContext } from './../../context/userContext';
+import { db } from '../../firebase';
+import { doc, setDoc } from "firebase/firestore";
 
 
 
 
 const Women = () => {
+    const { userInfo, users } = useUserContext();
+
     const [women, setWomen] = useState([]);
     useEffect(() => {
         async function prdlist() {
@@ -25,19 +29,26 @@ const Women = () => {
 
     // add favorite product
 
-
-
     const dispatch = useDispatch();
     const f = useSelector((state) => { return state.fav.favProducts })
     const [favMenu, setfavMenu] = useState(f);
 
-    const addFavorite = (productid, productimage, productname, productprice) => {
+    const addFavorite = async (productid, productimage, productname, productprice) => {
         let favProduct = { id: productid, img: productimage, name: productname, price: productprice };
-        if (favMenu.some(fav => fav.id == favProduct.id)) {
-            setfavMenu(favMenu.filter(f => f.name != favProduct.name))
+        if (users) {
+            if (favMenu.some(fav => fav.id == favProduct.id)) {
+                setfavMenu(favMenu.filter(f => f.name != favProduct.name))
+            }
+            else {
+                setfavMenu(favMenu.concat(favProduct))
+            }
+            await setDoc(doc(db, "Users", userInfo.uid), {
+                Favs: favMenu,
+            }, { merge: true });
         }
         else {
-            setfavMenu(favMenu.concat(favProduct))
+            setfavMenu(f)
+            alert("please log in first")
         }
     }
     dispatch(addFavourit(favMenu));
@@ -48,13 +59,22 @@ const Women = () => {
     const p = useSelector((state) => { return state.cart.cartProducts })
     const [cartMenu, setcartMenu] = useState(p);
 
-    const addProducts = (productid, productimage, productname, productprice) => {
+    const addProducts = async (productid, productimage, productname, productprice) => {
         let cartProduct = { id: productid, img: productimage, name: productname, price: productprice };
-        if (cartMenu.some(cart => cart.id == cartProduct.id)) {
-            setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
+        if (users) {
+            if (cartMenu.some(cart => cart.id == cartProduct.id)) {
+                setcartMenu(cartMenu.filter(p => p.name != cartProduct.name))
+            }
+            else {
+                setcartMenu(cartMenu.concat(cartProduct))
+            }
+            await setDoc(doc(db, "Users", userInfo.uid), {
+                Orders: cartMenu,
+            }, { merge: true });
         }
         else {
-            setcartMenu(cartMenu.concat(cartProduct))
+            setcartMenu(p)
+            alert("please log in first")
         }
     }
 
@@ -97,7 +117,7 @@ const Women = () => {
                                                     {womenPrd.name}
                                                 </div>
                                                 <div class="card-text">
-                                                    {womenPrd.price}
+                                                    EGP {womenPrd.price}
                                                 </div>
                                                 <a href="#" className={`card-button${cartMenu.some(i => i.id == womenPrd.id) ? 'card-button' : 'card-button'}`}
                                                     onClick={() => addProducts(womenPrd.id, womenPrd.imageURL, womenPrd.name, womenPrd.price)} class="card-button">Add To Cart</a>

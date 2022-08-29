@@ -3,11 +3,13 @@ import './home.css';
 import { AiOutlineArrowRight, AiOutlineArrowLeft, AiOutlineArrowUp } from 'react-icons/ai';
 import Slider from "react-slick";
 import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 
 
 
 const Home = () => {
+    const { t } = useTranslation()
 
     var settings = {
         dots: true,
@@ -55,51 +57,51 @@ const Home = () => {
                         </a>
                     </div>
                     <div className="col-12 d-flex justify-content-center mt-5">
-                        <h4>Trending right now</h4>
+                        <h4>{t('Trending')}</h4>
                     </div>
                     <div className='row  d-flex justify-content-center mt-4 mb-5 '>
                         <div className="item col-md-2 text-center">
                             <a href=""><img src="https://www2.hm.com/content/dam/hm-magazine-2020/featured-fashion/20_13_A_trend_bildspel_1.jpg" /></a>
                             <p className="carosueltitletxt">
-                                Women<br />
+                                {t('Women')}<br />
                                 <span className="carosueltxt">Jackets & Coats</span>
                             </p>
                         </div>
                         <div className='col-md-2 item text-center'>
                             <a href=""><img src="https://lp2.hm.com/hmgoepprod?set=quality%5B79%5D%2Csource%5B%2F33%2F9e%2F339e3549ec41eef34883a4fbe73e8501c36764fb.jpg%5D%2Corigin%5Bdam%5D%2Ccategory%5Bladies_cardigansjumpers_cardigans%5D%2Ctype%5BLOOKBOOK%5D%2Cres%5Bm%5D%2Chmver%5B1%5D&call=url[file:/product/main]" /></a>
                             <p className="carosueltitletxt">
-                                Women<br />
+                                {t('Women')}<br />
                                 <span className="carosueltxt">Cardigans &<br /> Sweaters</span>
                             </p>
                         </div>
                         <div className='col-md-2 item text-center'>
                             <a href=""><img src="https://cdna.lystit.com/photos/56a1-2014/11/06/hm-blue-jumper-in-a-mohair-blend-product-1-25065199-0-150443488-normal.jpeg" /></a>
                             <p className="carosueltitletxt">
-                                Women<br />
+                                {t('Women')}<br />
                                 <span className="carosueltxt">Clothes</span></p>
                         </div>
                         <div className='col-md-2 item text-center'>
                             <a href=""><img src="https://i.pinimg.com/736x/32/00/a8/3200a8617dfbc6139b8251a36d5118de.jpg" /></a>
                             <p className="carosueltitletxt">
-                                Kids<br />
+                                {t('Kids')}<br />
                                 <span className="carosueltxt">Boys 11/2-10<br /> years</span></p>
                         </div>
                         <div className='col-md-2 item text-center'>
                             <a href=""><img src="https://lp2.hm.com/hmprod?hmver=0&set=quality[79],source[/environment/2016/8EZ_0117_008R.jpg],width[4054],height[4740],x[549],y[438],type[FASHION_FRONT]&call=url[file:/product/main]" /></a>
                             <p className="carosueltitletxt">
-                                Kids<br />
+                                {t('Kids')}<br />
                                 <span className="carosueltxt">Girls 11/2-10<br /> years</span></p>
                         </div>
                         <div className='col-md-2 item text-center'>
                             <a href=""><img src="https://i.pinimg.com/736x/b3/21/bd/b321bd9d618ee5439cd7218f9a543704.jpg" /></a>
                             <p className="carosueltitletxt">
-                                Men<br />
+                                {t('Men')}<br />
                                 <span className="carosueltxt">Hoodies &<br /> Sweatshirts</span></p>
                         </div>
 
                     </div>
                     <div className="col-12 d-flex justify-content-center mt-5 newf">
-                        <h4>New fashion highlights</h4>
+                        <h4>{t('fashion')}</h4>
                     </div>
                     <section className="pt-5 pb-5 container">
                         <div className="row">
@@ -193,7 +195,7 @@ const Home = () => {
                     </div>
                     <div className="column mt-4 container" style={{ backgroundColor: "#8AFF8A" }}>
                         <div className="col-12 text-center p-2">
-                            <h2>New styles – at the best price</h2>
+                            <h2>{t('New_styles')}</h2>
                         </div>
                         <div className='row p-2 d-flex justify-content-center'>
                             <button className="col-sm-2 btn btn-dark m-1 text-center border border-dark p-2 mb-2 rounded-0">Women from EGP 69</button>
@@ -237,8 +239,8 @@ const Home = () => {
             </div>
             <div className='container-fluid mt-5' style={{ backgroundColor: "#F4EDDD" }}>
                 <div className='column p-5'>
-                    <h1 className='text-center '>MAGAZINE</h1>
-                    <a href='https://eg.hm.com/en/magazine' style={{ color: 'black' }} ><h6 className='mt-4 text-center text-decoration-underline magazine'>READ H&M MAGAZINE</h6></a>
+                    <h1 className='text-center '>{t('MAGAZINE')}</h1>
+                    <a href='https://eg.hm.com/en/magazine' style={{ color: 'black' }} ><h6 className='mt-4 text-center text-decoration-underline magazine'>{t('READ')}</h6></a>
                 </div>
                 <div className='container d-flex justify-content-center'>
                     <div className='row m-2 d-flex justify-content-center mb-5'>

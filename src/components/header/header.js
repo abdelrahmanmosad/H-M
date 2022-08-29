@@ -45,26 +45,18 @@ const Header = () => {
     }, [currentLanguage]);
     const counter = useSelector((state) => { return state.fav.favProducts })
     const counterproduct = useSelector((state) => { return state.cart.cartProducts })
-
     return (
         <>
             {/* Topnav */}
             <div className='container-fluid navTop'>
                 <div className='row'>
                     <ul style={{ fontSize: "1em" }}>
-                        {users ? <li className='mx-3'>{t('welcome_message')} {users.displayName}</li> : <li><Link to="/createaccount" className="">Create An Account</Link></li>}
+                        {users ? <li className='mx-3'>{t('welcome_message')} {users.displayName}</li> : <li><Link to="/createaccount" className="">{t('create')}</Link></li>}
                         {users && <li><Link to="/myaccount/account" >{t('My_account')}</Link></li>}
                         {users && <li><Link to="/myaccount/changepassword" >{t('Change_Password')}</Link></li>}
-                        {users ? <li onClick={() => logoutUser()} ><Link to="/signin">{t('SignOut')}</Link></li> : <li><Link to="/signin">Sign In</Link></li>}
+                        {users ? <li onClick={() => logoutUser()} ><Link to="/signin">{t('SignOut')}</Link></li> : <li><Link to="/signin">{t('signin')}</Link></li>}
                         <li><a href="https://eg.hm.com/en/store-finder">{t('Find_store')}</a></li>
                         <li onClick={() => changelanguage()} className='mx-3'>{t('language')}</li>
-
-                        {/* {languages.map(({ code, name }) => (
-
-                            <li onClick={() => { i18next.changeLanguage(code) }} className='mx-3'>{t('language')}</li>
-
-                        ))} */}
-
                     </ul>
                 </div>
             </div>
@@ -73,7 +65,7 @@ const Header = () => {
                 <div className='row d-flex justify-content-start search '>
                     <div className='col-5 d-flex justify-content-start mr-5'>
                         <div className=" mb-4 ">
-                            <input type="text" placeholder="What are you looking for?" className="form-control search-underlined" />
+                            <input type="text" placeholder={t('search')} className="form-control search-underlined" />
                         </div>
                         <BsSearch style={{ width: "30px", height: "30px", marginLeft: "10px", color: "gray" }} />
                     </div>
@@ -91,7 +83,7 @@ const Header = () => {
                 <div className="btn-group m-2  ">
                     <Link to="/men">
                         <button className="rounded-pill bg-transparent text-center border border-white" >
-                            Men
+                            {t('Men')}
                         </button>
                     </Link>
                 </div>
@@ -99,7 +91,7 @@ const Header = () => {
                 <div className="btn-group m-2  ">
                     <Link to="/women">
                         <button className="rounded-pill bg-transparent text-center border border-white" >
-                            Women
+                            {t('Women')}
                         </button>
                     </Link>
 
@@ -108,7 +100,7 @@ const Header = () => {
                 <div className="btn-group m-2  ">
                     <Link to="/kids">
                         <button className="rounded-pill bg-transparent text-center border border-white" >
-                            Kids
+                            {t('Kids')}
                         </button>
                     </Link>
 
@@ -120,9 +112,9 @@ const Header = () => {
                 <div className="row services  d-flex justify-content-center">
                     <div className='col-sm-12'>
                         <ul>
-                            <li><a href="">Free delivery on all orders above EGP 399</a></li>
-                            <li><a href="">Shop online 24/7</a></li>
-                            <li><a href="">Click & collect available on all items</a></li>
+                            <li><a href="">{t('delivery')}</a></li>
+                            <li><a href="">{t('Shop')}</a></li>
+                            <li><a href="">{t('collect')}</a></li>
                         </ul>
                     </div>
                 </div>

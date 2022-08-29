@@ -1,4 +1,4 @@
-import React, { useState , useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import './basket.css';
 import addProduct from '../../components/store/actions/cart';
@@ -20,13 +20,15 @@ const Basket = () => {
     dispatch(addProduct(cartMenu));
 
 
-   const Qprice = useRef();
-   let q = 1 ;
-    
-   const increase = (price) => {
-   q++;
-   console.log(price * q)
-   }
+    const Qprice = useRef();
+    let q = 1;
+
+    const increase = (evt) => {
+        /* q++; */
+        var price = evt.target
+        console.log(evt.children);
+
+    }
 
 
     const EmptyMessage = () => {
@@ -45,9 +47,7 @@ const Basket = () => {
     const ProductsL = () => (
         productList.map((prd) => {
             return (
-
                 <>
-
                     <div class="card">
                         <div class="table-responsive">
                             <table class="table table-borderless table-shopping-cart">
@@ -60,11 +60,11 @@ const Basket = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr onClick={(evt) => increase(evt)}>
                                         <td>
                                             <figure class="itemside align-items-center" key={prd.id}>
                                                 <div class="aside"><img src={prd.img} class="img-sm" /></div>
-                                                <figcaption class="info"> <a href="#" class="title text-dark" data-abc="true">{prd.name}</a>
+                                                <figcaption class="info"> <a class="title text-dark" data-abc="true" ref={Qprice}>{prd.name}</a>
                                                     <p class="small text-muted">SIZE:M <br /> Brand: Cantabil</p>
                                                 </figcaption>
                                             </figure>
@@ -76,9 +76,9 @@ const Basket = () => {
                                                 onClick={() => { prd.qty > 1 ? setCount(count - 1) : setCount(1); }}>
                                             </button> */}
                                             <Button className="ms-2" >-</Button>
-                                            <Button className="ms-2" onClick={() => increase(prd.price)}>+</Button>                                    </td>
+                                            <Button className="ms-2" >+</Button>                                    </td>
                                         <td>
-                                            <div class="price-wrap"><span  ref={Qprice}>{prd.price}</span> </div>
+                                            <div class="price-wrap">EGP <span >{prd.price}</span> </div>
                                         </td>
                                         <td class="text-right d-none d-md-block">
                                             {/* <a href="" class="btn btn-light" data-abc="true"> <BsSuitHeart style={{ width: "20px", height: "20px" }} /></a> */}

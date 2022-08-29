@@ -3,7 +3,11 @@ import './footer.css';
 import { BsFacebook, BsFillTelephoneFill } from 'react-icons/bs';
 import { AiFillTwitterCircle, AiOutlineInstagram, AiOutlineMail } from 'react-icons/ai';
 import { BiCurrentLocation } from 'react-icons/bi';
+import { useTranslation } from "react-i18next";
+
 const Footer = () => {
+    const { t } = useTranslation()
+
     return (
         <>
             <div className="container-fluid p-0 m-0 ">
@@ -18,8 +22,7 @@ const Footer = () => {
                                         loading="lazy" />
                                 </div>
 
-                                <p className="text-center">© H&M's business concept is to offer fashion and quality at the best price in a sustainable way. H&M has since it was founded in 1947 grown into one of the world's leading fashion companies. The content of this site is copyright-protected and is the property of H&M Hennes & Mauritz AB.
-                                    Egypt</p>
+                                <p className="text-center">{t('details')}</p>
 
                                 <ul className="list-unstyled d-flex flex-row justify-content-center">
                                     <li>
@@ -42,7 +45,7 @@ const Footer = () => {
                             </div>
 
                             <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-                                <h5 className="text-uppercase mb-4">SHOP</h5>
+                                <h5 className="text-uppercase mb-4">{t('SHOP')}</h5>
 
                                 <ul className="list-unstyled ">
                                     <li className="">
@@ -70,7 +73,7 @@ const Footer = () => {
                             </div>
 
                             <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-                                <h5 className="text-uppercase mb-4">CORPORATE INFO</h5>
+                                <h5 className="text-uppercase mb-4">{t('CORPORATE')}</h5>
 
                                 <ul className="list-unstyled ">
                                     <li className="mb-2">
@@ -94,7 +97,7 @@ const Footer = () => {
                             </div>
 
                             <div className="col-lg-3 col-md-8  mb-4 mb-md-0">
-                                <h5 className="text-uppercase mb-4">Contact</h5>
+                                <h5 className="text-uppercase mb-4">{t('Contact')}</h5>
 
                                 <ul className="list-unstyled">
                                     <li>
