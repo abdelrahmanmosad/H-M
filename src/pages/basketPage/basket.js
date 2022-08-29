@@ -1,12 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState , useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import './basket.css';
 import addProduct from '../../components/store/actions/cart';
 import { AiOutlineClose } from 'react-icons/ai';
 import { Button } from 'react-bootstrap';
+import { useUserContext } from "../../context/userContext";
+import { doc, getDoc,updateDoc, arrayRemove} from "firebase/firestore";
+import { db } from "../../firebase";
+import Paypal from '../../components/paypal';
+import { t } from 'i18next'; 
 
 
 const Basket = () => {
+    
+    const { users, userInfo } = useUserContext();
+
+    const { users, userInfo } = useUserContext();
 
     const dispatch = useDispatch()
     const productList = useSelector((state) => state.cart.cartProducts);
@@ -20,16 +29,105 @@ const Basket = () => {
     dispatch(addProduct(cartMenu));
 
 
-    const Qprice = useRef();
-    let q = 1;
+//    const Qprice = useRef();
+//    let q = 1 ;
+    
+//    const increase = (price) => {
+//    q++;
+//    console.log(price * q)
+//    }
 
-    const increase = (evt) => {
-        /* q++; */
-        var price = evt.target
-        console.log(evt.children);
+const[Order,setOrder]=useState([])
 
-    }
+// const [checkout, setCheckOut ] = useState(false);
 
+// var itemsPrice = Order.reduce((a, c) => a + c.Quantity * c.price, 0);
+// var taxPrice = itemsPrice * 0.1;
+// var shippingPrice = itemsPrice > 1000 ? 0 : 20;
+// var totalPrice = itemsPrice + taxPrice ;
+
+const [price, setPrice]=useState (0)
+
+useEffect(() => {
+
+
+    const getOrder =async ()=>{
+      await getDoc(doc(db, "Users", userInfo.uid)).then
+      
+      ((res)=>{
+        var x = 0;
+        for(var i = 0 ; i < res.data().Orders.length ; i++ )
+        {
+          x += res.data().Orders[i].price;
+        }
+        setPrice (x)
+        setOrder(res.data().Orders)
+        })
+  }
+
+  getOrder();
+    
+},)
+
+
+
+const ProductOrder = doc(db, "Users", userInfo.uid);
+
+
+
+// function onRemove(prd){
+// updateDoc(ProductOrder, {
+// Orders: arrayRemove(prd)
+// },[]);
+// }
+
+
+function onAdd(prd){
+
+const exist = Order.find((x) => x.name === prd.name);
+exist.Quantity=1;
+    setOrder(
+      Order.map((x) =>
+        x.name === prd.name ? { ...exist, Quantity: exist.Quantity+1 } : x
+      )
+    );
+
+// console.log(Order)
+updateDoc(ProductOrder,
+  { Orders: Order },
+  { merge: true }
+  )
+  }
+
+function onMinis(prd){
+
+const exist = Order.find((x) => x.name === prd.name);
+
+setOrder(
+  Order.map((x) =>
+    x.name === prd.name ? { ...exist, Quantity: exist.Quantity=exist.Quantity-1 } : x
+  )
+);
+
+
+if( exist.Quantity===0)
+{
+
+const x = Order.indexOf(prd);
+Order.splice(x,1)
+
+}
+
+
+// console.log(Order)
+updateDoc(ProductOrder,
+{ Orders: Order },
+{ merge: true }
+)
+
+}
+
+      
 
     const EmptyMessage = () => {
         if (productList.length > 0) {
@@ -45,17 +143,18 @@ const Basket = () => {
     }
 
     const ProductsL = () => (
-        productList.map((prd) => {
+        productList.map((prd,i) => {
             return (
                 <>
-                    <div class="card">
+
+                    <div class="card" key={i}>
                         <div class="table-responsive">
                             <table class="table table-borderless table-shopping-cart">
                                 <thead class="text-muted">
                                     <tr class="small text-uppercase">
                                         <th scope="col">Product</th>
                                         <th scope="col" width="120">Quantity</th>
-                                        <th scope="col" width="120">Price</th>
+                                        <th scope="col" width="200">Price</th>
                                         <th scope="col" class="text-right d-none d-md-block" width="200"></th>
                                     </tr>
                                 </thead>
@@ -70,15 +169,15 @@ const Basket = () => {
                                             </figure>
                                         </td>
                                         <td >
-                                            {/* <button onClick={() => setCount(count + 1)}>+</button>
-                                            {(prd.qty = count)}
-                                            <button
-                                                onClick={() => { prd.qty > 1 ? setCount(count - 1) : setCount(1); }}>
-                                            </button> */}
-                                            <Button className="ms-2" >-</Button>
-                                            <Button className="ms-2" >+</Button>                                    </td>
+ 
+                                             <Button className="ms-2"onClick={() =>onMinis(prd)} >-</Button>
+                                            {prd.Quantity}
+                                            <Button className="ms-2" onClick={() =>onAdd(prd,i)}>+</Button>   
+
+                                         </td>
+                                                                            
                                         <td>
-                                            <div class="price-wrap">EGP <span >{prd.price}</span> </div>
+                                            <div class="price-wrap m-3">{prd.price} EGP</div>
                                         </td>
                                         <td class="text-right d-none d-md-block">
                                             {/* <a href="" class="btn btn-light" data-abc="true"> <BsSuitHeart style={{ width: "20px", height: "20px" }} /></a> */}
@@ -132,18 +231,19 @@ const Basket = () => {
                             <div class="card">
                                 <div class="card-body">
                                     <dl class="dlist-align">
-                                        <dt>Total price:</dt>
-                                        <dd class="text-right ml-3"></dd>
+                                        <dt>Total price : </dt>
+                                        <dd class="text-right ml-3"><strong>{price.toFixed(2)} EGP</strong></dd>
                                     </dl>
                                     <dl class="dlist-align">
                                         <dt>Discount:</dt>
-                                        <dd class="text-right text-danger ml-3">- $10.00</dd>
+                                        <dd class="text-right text-danger ml-3">- 10.00 EGP</dd>
                                     </dl>
                                     <dl class="dlist-align">
-                                        <dt>Total:</dt>
-                                        <dd class="text-right text-dark b ml-3"><strong>$59.97</strong></dd>
+                                        <dt>Total : </dt>
+                                        <dd class="text-right text-dark b ml-3"><strong>{price-10.00.toFixed(2)} EGP</strong></dd>
                                     </dl>
-                                    <hr /> <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Make Purchase </a>
+                                    <hr />
+                                     <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true">Make Purchase</a>
                                     <a href="#" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
                                 </div>
                             </div>
