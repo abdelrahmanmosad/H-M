@@ -59,7 +59,7 @@ const Kids = () => {
     const p = useSelector((state) => { return state.cart.cartProducts })
     const [cartMenu, setcartMenu] = useState(p);
 
-    const addProducts = async(productid, productimage, productname, productprice) => {
+    const addProducts = async (productid, productimage, productname, productprice) => {
         let cartProduct = { id: productid, img: productimage, name: productname, price: productprice };
         if (users) {
             if (cartMenu.some(cart => cart.id == cartProduct.id)) {
@@ -79,8 +79,6 @@ const Kids = () => {
     }
 
     dispatch(addProduct(cartMenu));
-
-
     return (
         <>
             <div className='container-fluid'>
@@ -120,7 +118,7 @@ const Kids = () => {
                                                 <div class="card-text">
                                                     {prd.price}
                                                 </div>
-                                                <a href="#" className={`card-button${cartMenu.some(i => i.id == prd.id) ? 'card-button' : 'card-button'}`}
+                                                <a className={`card-button${cartMenu.some(i => i.id == prd.id) ? 'card-button' : 'card-button'}`}
                                                     onClick={() => addProducts(prd.id, prd.imageURL, prd.name, prd.price)} class="card-button">Add To Cart</a>
 
                                                 {/* <Link to={`/details/${prd.id}`} key={prd.id}><a href="/" class="card-button">Add To Cart</a></Link> */}
